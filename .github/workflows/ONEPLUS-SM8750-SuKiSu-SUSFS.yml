@@ -23,13 +23,13 @@ on:
         required: true
         default: '6.6'
       KERNEL_NAME:
-        description: "内核名称修改(默认为原厂，中文不行)"
+        description: "内核名称修改(中文不行)"
         required: true
-        default: '-android15-8-g013ec21bba94-abogki383916444'
+        default: '-By-kuan-FutabaWa'
       KERNEL_TIME:
        description: "内核构建日期更改(默认为原厂)"
        required: true
-       default: 'Tue Dec 17 23:36:49 UTC 2024'
+       default: '2024-12-17 23:36:49 UTC'
       enable_feature_x:
        description: "是否启用kpm"
        required: false
@@ -196,13 +196,17 @@ jobs:
          cp -r ./sched_ext/* ./common/kernel/sched
          rm -rf ./sched_ext/.git
          cd common/kernel/sched
-                   
-      - name: Build kernel
+         
+      - name: Set Kernel build timestamp
         run: |
-         cd kernel_workspace/kernel_platform/common
-         sed -i '30s/UTS_VERSION/"#1 SMP PREEMPT ${{ github.event.inputs.KERNEL_TIME }}"/' init/version-timestamp.c
-         cd ../  
-         tools/bazel run --config=fast  --lto=thin //common:kernel_aarch64_dist -- --dist_dir=dist
+          export SOURCE_DATE_EPOCH=$(date -d "${{ github.event.inputs.KERNEL_TIME }}" +%s)
+          echo "SOURCE_DATE_EPOCH=$SOURCE_DATE_EPOCH" >> $GITHUB_ENV
+          
+      - name: Build Kernel
+        run: |
+           export SOURCE_DATE_EPOCH=${SOURCE_DATE_EPOCH}
+           cd kernel_workspace/kernel_platform
+           tools/bazel run --config=fast --config=stamp --lto=thin //common:kernel_aarch64_dist -- --dist_dir=dist
 
       - name: Make AnyKernel3
         run: |
