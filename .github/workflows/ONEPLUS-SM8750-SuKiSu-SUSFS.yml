@@ -27,6 +27,10 @@ on:
        required: false
        default: false
        type: boolean
+      KERNELS_NAME:
+       description: "默认原厂内核名称"
+       required: true
+       默认: "-android15-8-g013ec21bba94-abogki383916444"
       ZRAM:
         type: boolean
         description: "是否启用添加更多的ZRAM算法？"
@@ -237,7 +241,12 @@ jobs:
           sudo sed -i 's/check_defconfig//' ./common/build.config.gki
           cd common
           git add -A && git commit -a -m "BUILD Kernel"
-          
+
+      - name: Add make name
+        run: |
+         cd kernel_workspace/kernel_platform
+         sed -i 's/res="\$res\$(cat "\$file")"/res="-android15-8-g013ec21bba94-abogki383916444"/g' ./common/scripts/setlocalversion
+         sudo sed -i 's/-android15-8-g013ec21bba94-abogki383916444/${{ github.event.inputs.KERNEL_NAME }}/g' ./common/scripts/setlocalversion    
       
       - name: Add sched_ext
         if: ${{inputs.enable_feature_z }}
