@@ -30,12 +30,12 @@ on:
        type: boolean
        description: "SUSFS模块下载是否调用CI？"
        required: true
-       默认: true
+       default: true
       ZRAM:
         type: boolean
         description: "是否启用添加更多的ZRAM算法？"
         required: false
-        默认: false
+        default: false
       enable_feature_x:
        description: "是否启用kpm"
        required: false
@@ -44,7 +44,7 @@ on:
       enable_feature_z:
        description: "是否添加风驰驱动"
        required: false
-       默认: false
+       default: false
        type: boolean
       
       
