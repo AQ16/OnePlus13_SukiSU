@@ -306,12 +306,13 @@ jobs:
           APK_URL=$(echo "$LATEST_RELEASE" | jq -r '.assets[] | select(.name | test(".*\\.apk$")) | .browser_download_url')
           if [ -z "$APK_URL" ]; then
             echo "No APK file found in the latest release."
-          fi
+          else
           curl -LO "$APK_URL"
           APK_FILE=$(basename "$APK_URL")
           echo "Downloaded file: $APK_FILE"
           mv "$APK_FILE" ./AnyKernel3/
           echo "Renamed and moved file to ./AnyKernel3/"
+          if
           
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
