@@ -294,6 +294,8 @@ jobs:
          git clone https://github.com/HanKuCha/AnyKernel3.git --depth=1      
          rm -rf ./AnyKernel3/.git
          rm -rf ./AnyKernel3/push.sh
+         rm -rf ./AnyKernel3/anykernel1.sh
+         rm -rf ./AnyKernel3/anykernel2.sh
          cp kernel_workspace/kernel_platform/dist/Image ./AnyKernel3/
          
        # 下载 SUSFS 模块（CI）
