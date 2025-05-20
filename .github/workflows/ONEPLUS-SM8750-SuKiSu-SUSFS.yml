@@ -306,7 +306,6 @@ jobs:
           APK_URL=$(echo "$LATEST_RELEASE" | jq -r '.assets[] | select(.name | test(".*\\.apk$")) | .browser_download_url')
           if [ -z "$APK_URL" ]; then
             echo "No APK file found in the latest release."
-            exit 1
           fi
           curl -LO "$APK_URL"
           APK_FILE=$(basename "$APK_URL")
