@@ -22,30 +22,31 @@ on:
         description: "内核版本"
         required: true
         default: '6.6'
-      enable_feature_x:
-       description: "是否启用kpm"
-       required: false
-       default: false
-       type: boolean
       KERNEL_NAME:
         description: "自定义内核后版本名"
         required: false
         default: 'QQQiuCi-SukiSU_Ultra-SUSFS'
-      ZRAM:
-        type: boolean
-        description: "是否启用添加更多的ZRAM算法？"
-        required: true
-        默认: true
-      enable_feature_z:
-       description: "是否添加风驰驱动"
-       required: false
-       默认: true
-       type: boolean
       SUSFS_CI:
        type: boolean
        description: "SUSFS模块下载是否调用CI？"
        required: true
        默认: true
+      ZRAM:
+        type: boolean
+        description: "是否启用添加更多的ZRAM算法？"
+        required: false
+        默认: false
+      enable_feature_x:
+       description: "是否启用kpm"
+       required: false
+       default: false
+       type: boolean
+      enable_feature_z:
+       description: "是否添加风驰驱动"
+       required: false
+       默认: false
+       type: boolean
+      
       
        
 
