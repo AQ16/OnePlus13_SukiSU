@@ -27,19 +27,19 @@ on:
        required: false
        default: false
        type: boolean
-      KERNELS_NAME:
-       description: "默认原厂内核名称"
-       required: true
-       默认: "-android15-8-g013ec21bba94-abogki383916444"
+      KERNEL_NAME:
+        description: "自定义内核后版本名"
+        required: false
+        default: 'QQQiuCi-SukiSU_Ultra-SUSFS'
       ZRAM:
         type: boolean
         description: "是否启用添加更多的ZRAM算法？"
         required: true
-        default: false
+        默认: true
       enable_feature_z:
        description: "是否添加风驰驱动"
        required: false
-       default: false
+       默认: true
        type: boolean
       SUSFS_CI:
        type: boolean
@@ -58,6 +58,16 @@ jobs:
       CCACHE_NOHASHDIR: "true"
       CCACHE_HARDLINK: "true"
     steps:
+      - name: Set Timezone to Asia/Shanghai
+        run: |
+          echo "Setting timezone to Asia/Shanghai"
+          sudo timedatectl set-timezone Asia/Shanghai
+          date
+          
+      - name: Generate timestamp
+        id: generate_timestamp
+        run: echo "TIMESTAMP=$(date +%Y%m%d)" >> $GITHUB_ENV
+        
       - name: Maximize build space
         uses: easimon/maximize-build-space@master
         with:
@@ -70,8 +80,8 @@ jobs:
           
       - name: Configure Git
         run: |
-         git config --global user.name "build"
-         git config --global user.email "3199167602@qq.com"
+         git config --global user.name "QQQiuCi"
+         git config --global user.email "1136673807@qq.com"
 
       - name: Install dependencies
         run: |
@@ -91,7 +101,9 @@ jobs:
          repo --trace sync -c -j$(nproc --all) --no-tags
          rm kernel_platform/common/android/abi_gki_protected_exports_* || echo "No protected exports!"
          rm kernel_platform/msm-kernel/android/abi_gki_protected_exports_* || echo "No protected exports!"
-         sed -i 's/EXTRAVERSION =/EXTRAVERSION =-QQQiuCi/I' kernel_platform/common/Makefile
+         if [ -n "${{ github.event.inputs.KERNEL_NAME }}" ]; then
+           sed -i '$s|echo "\$res"|echo "-${{ github.event.inputs.KERNEL_NAME }}-${{ env.TIMESTAMP }}"|' kernel_platform/common/scripts/setlocalversion
+         fi
          
       - name: Set up SukiSU
         run: |
@@ -242,11 +254,6 @@ jobs:
           cd common
           git add -A && git commit -a -m "BUILD Kernel"
 
-      - name: Add make name
-        run: |
-         cd kernel_workspace/kernel_platform
-         sed -i 's/res="\$res\$(cat "\$file")"/res="-android15-8-g013ec21bba94-abogki383916444"/g' ./common/scripts/setlocalversion
-         sudo sed -i 's/-android15-8-g013ec21bba94-abogki383916444/${{ github.event.inputs.KERNEL_NAME }}/g' ./common/scripts/setlocalversion    
       
       - name: Add sched_ext
         if: ${{inputs.enable_feature_z }}
