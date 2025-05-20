@@ -312,7 +312,7 @@ jobs:
           echo "Downloaded file: $APK_FILE"
           mv "$APK_FILE" ./AnyKernel3/
           echo "Renamed and moved file to ./AnyKernel3/"
-          if
+          fi
           
       - name: Upload AnyKernel3
         uses: actions/upload-artifact@v4
