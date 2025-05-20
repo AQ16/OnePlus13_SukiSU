@@ -107,9 +107,6 @@ jobs:
          repo --trace sync -c -j$(nproc --all) --no-tags
          rm kernel_platform/common/android/abi_gki_protected_exports_* || echo "No protected exports!"
          rm kernel_platform/msm-kernel/android/abi_gki_protected_exports_* || echo "No protected exports!"
-         if [ -n "${{ github.event.inputs.KERNEL_NAME }}" ]; then
-           sed -i '$s|echo "\$res"|echo "-${{ github.event.inputs.KERNEL_NAME }}-${{ env.TIMESTAMP }}"|' kernel_platform/common/scripts/setlocalversion
-         fi
          
       - name: Set up SukiSU
         run: |
@@ -259,6 +256,12 @@ jobs:
           sudo sed -i 's/check_defconfig//' ./common/build.config.gki
           cd common
           git add -A && git commit -a -m "BUILD Kernel"
+          
+      - name: Add make name
+        run: |
+         cd kernel_workspace/kernel_platform
+         sed -i 's/res="\$res\$(cat "\$file")"/res="-android15-8-g013ec21bba94-abogki383916444"/g' ./common/scripts/setlocalversion
+         sudo sed -i 's/-android15-8-g013ec21bba94-abogki383916444/-${{ github.event.inputs.KERNEL_NAME }}-${{ env.TIMESTAMP }}/g' ./common/scripts/setlocalversion
 
       
       - name: Add sched_ext
