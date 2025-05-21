@@ -1,4 +1,4 @@
-name: 一加13和a5p构建
+name: OnePlus13_SukiSU
 on:
   workflow_dispatch:
     inputs:
@@ -280,7 +280,7 @@ jobs:
            cd kernel_workspace/kernel_platform
            tools/bazel run --config=fast --config=stamp --lto=thin //common:kernel_aarch64_dist -- --dist_dir=dist
 
-      - name: Make AnyKernel3
+      - name: Mv oImage Image
         run: |
          cd kernel_workspace/kernel_platform/dist/
          curl -LO https://github.com/ShirkNeko/SukiSU_KernelPatch_patch/releases/download/0.11-beta/patch_linux
@@ -291,12 +291,13 @@ jobs:
          
       - name: Make AnyKernel3
         run: |
-         git clone https://github.com/HanKuCha/AnyKernel3.git --depth=1      
-         rm -rf ./AnyKernel3/.git
-         rm -rf ./AnyKernel3/push.sh
-         rm -rf ./AnyKernel3/anykernel1.sh
-         rm -rf ./AnyKernel3/anykernel2.sh
-         cp kernel_workspace/kernel_platform/dist/Image ./AnyKernel3/
+           git clone https://github.com/HanKuCha/AnyKernel3.git --depth=1
+           git clone https://github.com/AQ16/AnyKernel3.git AQ16_AnyKernel3 --depth=1
+           cp ./AQ16_AnyKernel3/anykernel.sh ./AnyKernel3/anykernel.sh
+           rm -rf ./AQ16_AnyKernel3
+           rm -rf ./AnyKernel3/.git
+           rm -rf ./AnyKernel3/push.sh
+           cp kernel_workspace/kernel_platform/dist/Image ./AnyKernel3/
          
        # 下载 SUSFS 模块（CI）
       - name: Download Latest SUSFS Module from CI
