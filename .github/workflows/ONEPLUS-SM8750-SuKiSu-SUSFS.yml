@@ -29,7 +29,7 @@ on:
       KERNEL_NAME:
         description: "自定义内核后版本名"
         required: false
-        default: 'QQQiuCi-SukiSU-Ultra-SuSFS'
+        default: 'QQQiuCi-SukiSU'
       SUSFS_CI:
        type: boolean
        description: "SUSFS模块下载是否调用CI？"
@@ -261,7 +261,7 @@ jobs:
         run: |
          cd kernel_workspace/kernel_platform
          sed -i 's/res="\$res\$(cat "\$file")"/res="-android15-8-g013ec21bba94-abogki383916444"/g' ./common/scripts/setlocalversion
-         sudo sed -i 's/-android15-8-g013ec21bba94-abogki383916444/-${{ github.event.inputs.KERNEL_NAME }}-${{ env.TIMESTAMP }}/g' ./common/scripts/setlocalversion
+         sudo sed -i 's/-android15-8-g013ec21bba94-abogki383916444/-${{ github.event.inputs.KERNEL_NAME }}-${{ env.KSUVER }}-${{ env.TIMESTAMP }}/g' ./common/scripts/setlocalversion
 
       
       - name: Add sched_ext
