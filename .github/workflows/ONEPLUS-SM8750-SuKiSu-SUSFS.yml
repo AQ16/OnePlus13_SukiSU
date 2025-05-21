@@ -325,12 +325,13 @@ jobs:
           wget -O ksu_module_susfs_1.5.2+_Release.zip https://github.com/sidex15/ksu_module_susfs/releases/latest/download/ksu_module_susfs_1.5.2+.zip
           cp ksu_module_susfs_1.5.2+_Release.zip ./AnyKernel3/
   
-      # 下载 LZ4KD-ZRAM 模块（Release）
-      - name: Download Latest LZ4KD-ZRAM Module from Release
+      # 下载 Zram_Configuration 模块（Release）
+      - name: Download Latest Zram_Configuration Module from Release
         if: ${{ github.event.inputs.ZRAM == 'true' }}
         run: |
-          wget https://github.com/AQ16/QQQiuCi/releases/latest/download/ZRAM_Lz4kd.zip
-          cp ZRAM_Lz4kd.zip ./AnyKernel3/
+          wget https://github.com/AQ16/QQQiuCi/releases/latest/download/Zram_Configuration.zip
+          cp Zram_Configuration.zip ./AnyKernel3/
+          
      # 下载SukiSU Ultra管理器
       - name: Download latest SukiSU Ultra APK
         env:
