@@ -1,4 +1,4 @@
-name: OnePlus13_SukiSU
+name: ONEPLUS-SM8750-SuKiSu-SUSFS
 on:
   workflow_dispatch:
     inputs:
