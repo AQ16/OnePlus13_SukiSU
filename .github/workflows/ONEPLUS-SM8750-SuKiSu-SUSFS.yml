@@ -29,7 +29,7 @@ on:
       KERNEL_NAME:
         description: "自定义内核后版本名"
         required: false
-        default: '-android15-8-g013ec21bba94-383916444'
+        default: '-android15-8-g013ec21bba94-abogki383916444'
       KERNEL_TIME:
        type: choice
        description: "内核构建日期更改(默认显示的是13原厂，a5p选第二个)"
